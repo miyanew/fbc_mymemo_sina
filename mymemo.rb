@@ -5,6 +5,16 @@ require 'json'
 
 set :environment, :production
 
+before do
+  content_type 'text/html'
+end
+
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+end
+
 def load_memos
   memo_filepath = 'memos.json'
   if File.exist?(memo_filepath)
@@ -52,6 +62,7 @@ get '/' do
 end
 
 get '/memo' do
+  content_type 'text/html'
   erb :memo_new
 end
 

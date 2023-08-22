@@ -2,26 +2,17 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/style.css">
   <title>memo</title>
 </head>
-
 <body>
-<section>
-<form id="button_upd" action="/draft/<%= @memo[:id] %>" method="get">
-  <button>変更</button>
-  <input type="hidden" name="name" value="<%= @memo[:name] %>">
-  <input type="hidden" name="body" value="<%= @memo[:body] %>">
-  <input type="text" value=<%= @memo[:name] %> readonly>
-  <textarea rows="5" cols="30" readonly><%= @memo[:body] %></textarea>
-</form>
-
-<form id="button_del" action="/trash/<%= @memo[:id] %>" method="post">
-  <button>削除</button>
-  <input type="hidden" name="_method" value="delete">
-  <input type="hidden" name="name" value="<%= @memo[:name] %>">
-  <input type="hidden" name="body" value="<%= @memo[:body] %>">
-</form>
-
-</section>
+  <form id="button_upd" action="/draft/<%= @memo[:id] %>" method="get">
+    <input type="text" class="name-readonly" value="<%= h(@memo[:name]) %>" readonly>
+    <textarea class="body-readonly" readonly><%= h(@memo[:body]) %></textarea>
+    <button>変更</button>
+  </form>
+  <form id="button_del" action="/trash/<%= @memo[:id] %>" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <button>削除</button>
+  </form>
 </body>

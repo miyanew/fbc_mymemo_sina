@@ -2,17 +2,14 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/style.css">
   <title>memo</title>
 </head>
 <body>
-<section>
-<form id="button_upd" action="/memo/<%= @memo[:id] %>" method="post">
-  <button>変更</button>
-  <input type="hidden" name="_method" value="patch">
-  <input type="text" id="name" name="name" style="background-color: gray;" value=<%= @memo[:name] %>>
-  <textarea name="body" rows="5" cols="30" style="background-color: gray;"><%= @memo[:body] %></textarea>
-</form>
-
-</section>
+  <form id="button_upd" action="/memo/<%= @memo[:id] %>" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <input type="text" name="name" class="name-edit" value="<%= h(@memo[:name]) %>">
+    <textarea name="body" class="body-edit"><%= h(@memo[:body]) %></textarea>
+    <button>変更</button>
+  </form>
 </body>
