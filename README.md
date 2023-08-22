@@ -7,11 +7,12 @@ mymemoは、Sinatraで作られたWebブラウザ上で動作するメモアプ�
 
 1. PCの任意の作業ディレクトリにて git clone してください。
 ```
-$ git clone https://github.com/自分のアカウント名/***.git
+$ git clone https://github.com/miyanew/fbc_mymemo_sina.git
 ```
 
-2. gem をインストールしてください。
+2. プロジェクトのルートディレクトリに移動し、gem をインストールしてください。
 ```
+$ cd fbc_mymemo_sina
 $ bundle install
 ```
 
@@ -23,3 +24,4 @@ $ bundle exec ruby mymemo.rb
 ```
 http://localhost:4567
 ```
+
