@@ -99,6 +99,7 @@ PLATFORMS
 
 DEPENDENCIES
   erb_lint
+  rubocop
   rubocop-fjord
   sinatra
   webrick

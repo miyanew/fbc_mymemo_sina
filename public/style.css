@@ -1,5 +1,5 @@
 body {
-	line-height: 1;
+  line-height: 1;
 }
 
 h1 {
@@ -7,20 +7,20 @@ h1 {
 }
 
 input {
-	display: block;
-	height: 2em;
-	width: 40em;
-	margin-bottom: 20px;
+  display: block;
+  height: 2em;
+  width: 40em;
+  margin-bottom: 20px;
 }
 
 textarea {
-	display: block;
+  display: block;
   width: 40em;
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .name-edit, .body-edit {
-	background-color:gray;
+  background-color: gray;
 }
 
 .name-readonly, .body-readonly {
