@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="/style.css">
-  <title>memo</title>
-</head>
-<body>
-  <form id="button_upd" action="/draft/<%= @memo[:id] %>" method="get">
-    <input type="text" class="name-readonly" value="<%= h(@memo[:name]) %>" readonly>
-    <textarea class="body-readonly" readonly><%= h(@memo[:body]) %></textarea>
-    <button>変更</button>
-  </form>
-  <form id="button_del" action="/trash/<%= @memo[:id] %>" method="post">
-    <input type="hidden" name="_method" value="delete">
-    <button>削除</button>
-  </form>
-</body>
+<form action="/draft/<%= @memo[:id] %>" method="get">
+  <p><%= h(@memo[:name]) %></p>
+  <p><%= h(@memo[:body]) %></p>
+  <button>変更</button>
+</form>
+<form action="/trash/<%= @memo[:id] %>" method="post">
+  <input type="hidden" name="_method" value="delete">
+  <button>削除</button>
+</form>

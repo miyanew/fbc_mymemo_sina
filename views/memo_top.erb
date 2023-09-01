@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="/style.css">
-  <title>memo</title>
-</head>
-<body>
-<form id="button_add" action="/memo" method="get">
+<form action="/memo" method="get">
   <button>追加</button>
 </form>
-  <% @memos.each do |memo| %>
-    <ul>
-      <li><a href="http://localhost:4567/memo/<%= memo[:id] %>"><%= h(memo[:name]) %></li>
-    </ul>
-  <% end %>
-</body>
+<% @memos.each do |memo| %>
+  <ul>
+    <li><a href="/memo/<%= memo[:id] %>"><%= h(memo[:name]) %></li>
+  </ul>
+<% end %>
