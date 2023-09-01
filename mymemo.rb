@@ -4,6 +4,7 @@ require 'sinatra'
 require 'json'
 
 set :environment, :production
+MEMO_FILEPATH = 'memos.json'
 
 before do
   content_type 'text/html'
@@ -16,43 +17,41 @@ helpers do
 end
 
 def load_memos
-  memo_filepath = 'memos.json'
-  if File.exist?(memo_filepath)
-    JSON.parse(File.read(memo_filepath), symbolize_names: true)
+  if File.exist?(MEMO_FILEPATH)
+    JSON.parse(File.read(MEMO_FILEPATH), symbolize_names: true)
   else
     []
   end
 end
 
 def save_memos(memos)
-  memo_filepath = 'memos.json'
-  File.write(memo_filepath, JSON.pretty_generate(memos))
+  File.write(MEMO_FILEPATH, JSON.pretty_generate(memos))
 end
 
-def create_memo
+def create_memo(user_response)
   memos = load_memos
-  id = memos.empty? ? 1 : memos.map { |memo| memo[:id].to_i }.max + 1
-  memos << { id:, name: params[:name], body: params[:body] }
+  id = Time.now.strftime('%Y%m%d%H%M%S%L')
+  memos << { id:, name: user_response[:name], body: user_response[:body] }
   save_memos(memos)
 end
 
-def select_target_memo
-  load_memos.find { |memo| memo[:id] == params[:id].to_i }
+def select_target_memo(selected_id)
+  load_memos.find { |memo| memo[:id] == selected_id }
 end
 
-def update_memos
+def update_memos(user_response)
   updated_memos = load_memos.map do |memo|
-    if memo[:id] == params[:id].to_i
-      memo[:name] = params[:name]
-      memo[:body] = params[:body]
+    if memo[:id] == user_response[:id]
+      memo[:name] = user_response[:name]
+      memo[:body] = user_response[:body]
     end
     memo
   end
   save_memos(updated_memos)
 end
 
-def delete_target_memo
-  deleted_memos = load_memos.delete_if { |memo| memo[:id] == params[:id].to_i }
+def delete_target_memo(selected_id)
+  deleted_memos = load_memos.delete_if { |memo| memo[:id] == selected_id }
   save_memos(deleted_memos)
 end
 
@@ -67,26 +66,26 @@ get '/memo' do
 end
 
 post '/memo' do
-  create_memo
+  create_memo(params)
   redirect '/'
 end
 
 get '/memo/:id' do
-  @memo = select_target_memo
+  @memo = select_target_memo(params[:id])
   erb :memo_show
 end
 
 patch '/memo/:id' do
-  update_memos
+  update_memos(params)
   redirect "/memo/#{params[:id]}"
 end
 
 get '/draft/:id' do
-  @memo = select_target_memo
+  @memo = select_target_memo(params[:id])
   erb :memo_draft
 end
 
 delete '/trash/:id' do
-  delete_target_memo
+  delete_target_memo(params[:id])
   redirect '/'
 end
