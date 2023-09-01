@@ -24,4 +24,3 @@ $ bundle exec ruby mymemo.rb
 ```
 http://localhost:4567
 ```
-
