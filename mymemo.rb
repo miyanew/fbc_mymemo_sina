@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'json'
+require 'securerandom'
 
 MEMO_FILEPATH = 'memos.json'
 
@@ -29,7 +30,7 @@ end
 
 def create_memo(new_name: '', new_body: '')
   memos = load_memos
-  id = Time.now.strftime('%Y%m%d%H%M%S%L')
+  id = SecureRandom.uuid
   memos << { id:, name: new_name, body: new_body }
   save_memos(memos)
 end
