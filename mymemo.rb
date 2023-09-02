@@ -3,7 +3,6 @@
 require 'sinatra'
 require 'json'
 
-set :environment, :production
 MEMO_FILEPATH = 'memos.json'
 
 before do
@@ -28,10 +27,10 @@ def save_memos(memos)
   File.write(MEMO_FILEPATH, JSON.pretty_generate(memos))
 end
 
-def create_memo(user_response)
+def create_memo(new_name: '', new_body: '')
   memos = load_memos
   id = Time.now.strftime('%Y%m%d%H%M%S%L')
-  memos << { id:, name: user_response[:name], body: user_response[:body] }
+  memos << { id:, name: new_name, body: new_body }
   save_memos(memos)
 end
 
@@ -39,11 +38,11 @@ def select_target_memo(selected_id)
   load_memos.find { |memo| memo[:id] == selected_id }
 end
 
-def update_memos(user_response)
+def update_memos(selected_id: '', updated_name: '', updated_body: '')
   updated_memos = load_memos.map do |memo|
-    if memo[:id] == user_response[:id]
-      memo[:name] = user_response[:name]
-      memo[:body] = user_response[:body]
+    if memo[:id] == selected_id
+      memo[:name] = updated_name
+      memo[:body] = updated_body
     end
     memo
   end
@@ -65,12 +64,11 @@ get '/memos' do
 end
 
 get '/memos/new' do
-  content_type 'text/html'
   erb :memo_new
 end
 
 post '/memos/new' do
-  create_memo(params)
+  create_memo(new_name: params[:name], new_body: params[:body])
   redirect '/memos'
 end
 
@@ -80,7 +78,7 @@ get '/memos/:id' do
 end
 
 patch '/memos/:id' do
-  update_memos(params)
+  update_memos(selected_id: params[:id], updated_name: params[:name], updated_body: params[:body])
   redirect "/memos/#{params[:id]}"
 end
 
