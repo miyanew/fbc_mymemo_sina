@@ -1,9 +1,9 @@
-<form action="/draft/<%= @memo[:id] %>" method="get">
+<form action="/memos/<%= @memo[:id] %>/edit" method="get">
   <p><%= h(@memo[:name]) %></p>
   <p><%= h(@memo[:body]) %></p>
   <button>変更</button>
 </form>
-<form action="/trash/<%= @memo[:id] %>" method="post">
+<form action="/memos/<%= @memo[:id] %>" method="post">
   <input type="hidden" name="_method" value="delete">
   <button>削除</button>
 </form>

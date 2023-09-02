@@ -1,8 +1,8 @@
-<form action="/memo" method="get">
+<form action="/memos/new" method="get">
   <button>追加</button>
 </form>
 <% @memos.each do |memo| %>
   <ul>
-    <li><a href="/memo/<%= memo[:id] %>"><%= h(memo[:name]) %></li>
+    <li><a href="/memos/<%= memo[:id] %>"><%= h(memo[:name]) %></li>
   </ul>
 <% end %>

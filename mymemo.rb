@@ -56,36 +56,40 @@ def delete_target_memo(selected_id)
 end
 
 get '/' do
+  redirect '/memos'
+end
+
+get '/memos' do
   @memos = load_memos
   erb :memo_top
 end
 
-get '/memo' do
+get '/memos/new' do
   content_type 'text/html'
   erb :memo_new
 end
 
-post '/memo' do
+post '/memos/new' do
   create_memo(params)
-  redirect '/'
+  redirect '/memos'
 end
 
-get '/memo/:id' do
+get '/memos/:id' do
   @memo = select_target_memo(params[:id])
   erb :memo_show
 end
 
-patch '/memo/:id' do
+patch '/memos/:id' do
   update_memos(params)
-  redirect "/memo/#{params[:id]}"
+  redirect "/memos/#{params[:id]}"
 end
 
-get '/draft/:id' do
+get '/memos/:id/edit' do
   @memo = select_target_memo(params[:id])
-  erb :memo_draft
+  erb :memo_edit
 end
 
-delete '/trash/:id' do
+delete '/memos/:id' do
   delete_target_memo(params[:id])
-  redirect '/'
+  redirect '/memos'
 end
