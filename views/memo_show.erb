@@ -1,6 +1,6 @@
+<p><%= h(@memo[:name]) %></p>
+<p><%= h(@memo[:body]) %></p>
 <form action="/memos/<%= @memo[:id] %>/edit" method="get">
-  <p><%= h(@memo[:name]) %></p>
-  <p><%= h(@memo[:body]) %></p>
   <button>変更</button>
 </form>
 <form action="/memos/<%= @memo[:id] %>" method="post">
