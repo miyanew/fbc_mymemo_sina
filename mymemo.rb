@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'sinatra'
+Bundler.require(:default)
 require 'json'
 require 'securerandom'
-Bundler.require(:default)
 
 MEMO_FILEPATH = 'memos.json'
 
