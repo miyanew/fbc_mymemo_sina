@@ -3,12 +3,9 @@
 require 'sinatra'
 require 'json'
 require 'securerandom'
+Bundler.require(:default)
 
 MEMO_FILEPATH = 'memos.json'
-
-before do
-  content_type 'text/html'
-end
 
 helpers do
   def h(text)
@@ -28,7 +25,7 @@ def save_memos(memos)
   File.write(MEMO_FILEPATH, JSON.pretty_generate(memos))
 end
 
-def create_memo(new_name: '', new_body: '')
+def create_memo(new_name:, new_body:)
   memos = load_memos
   id = SecureRandom.uuid
   memos << { id:, name: new_name, body: new_body }
@@ -39,7 +36,7 @@ def select_target_memo(selected_id)
   load_memos.find { |memo| memo[:id] == selected_id }
 end
 
-def update_memos(selected_id: '', updated_name: '', updated_body: '')
+def update_memos(selected_id:, updated_name:, updated_body:)
   updated_memos = load_memos.map do |memo|
     if memo[:id] == selected_id
       memo[:name] = updated_name
