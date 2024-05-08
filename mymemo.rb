@@ -17,11 +17,8 @@ helpers do
 end
 
 def load_memos
-  if File.exist?(MEMO_FILEPATH)
-    JSON.parse(File.read(MEMO_FILEPATH), symbolize_names: true)
-  else
-    []
-  end
+  result = CONN.exec('SELECT id, name, body FROM memos')
+  result.map { |row| { id: row['id'], name: row['name'], body: row['body'] } }
 end
 
 def save_memos(memos)
