@@ -17,8 +17,8 @@ helpers do
 end
 
 def load_memos
-  result = CONN.exec('SELECT id, name, body FROM memos')
-  result.map { |row| { id: row['id'], name: row['name'], body: row['body'] } }
+  memos = CONN.exec('SELECT id, name, body FROM memos')
+  memos.map { |memo| { id: memo['id'], name: memo['name'], body: memo['body'] } }
 end
 
 def save_memos(memos)
@@ -26,10 +26,7 @@ def save_memos(memos)
 end
 
 def create_memo(new_name:, new_body:)
-  memos = load_memos
-  id = SecureRandom.uuid
-  memos << { id:, name: new_name, body: new_body }
-  save_memos(memos)
+  CONN.exec_params('INSERT INTO memos (name, body) VALUES ($1, $2)', [new_name, new_body])
 end
 
 def select_target_memo(selected_id)
