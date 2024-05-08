@@ -3,6 +3,10 @@
 require 'sinatra'
 require 'json'
 require 'securerandom'
+require 'pg'
+
+CONN = PG.connect(host: 'localhost', dbname: '', user: 'postgres', password: 'password')
+CONN.exec('CREATE TABLE IF NOT EXISTS memos (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR(100) NOT NULL, body VARCHAR(200))')
 
 MEMO_FILEPATH = 'memos.json'
 

@@ -9,4 +9,19 @@ services:
         source: .
         target: /app
     network_mode: host
+    depends_on:
+      - db
     command: ruby mymemo.rb
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ""
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    network_mode: host
+
+volumes:
+  postgres_data:
