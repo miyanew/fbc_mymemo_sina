@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my_memo
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    network_mode: host
+    command: ruby mymemo.rb
