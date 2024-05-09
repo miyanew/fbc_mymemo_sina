@@ -2,11 +2,15 @@
 
 require 'sinatra'
 require 'pg'
+require 'dotenv/load'
 
-CONN = PG.connect(host: 'localhost', dbname: '', user: 'postgres', password: 'password')
+CONN = PG.connect(
+  host: 'localhost',
+  dbname: ENV['POSTGRES_DB'],
+  user: ENV['POSTGRES_USER'],
+  password: ENV['POSTGRES_PASSWORD']
+)
 CONN.exec('CREATE TABLE IF NOT EXISTS memos (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR(100) NOT NULL, body VARCHAR(200))')
-
-MEMO_FILEPATH = 'memos.json'
 
 helpers do
   def h(text)

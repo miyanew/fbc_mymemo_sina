@@ -23,6 +23,7 @@ GEM
     builder (3.2.4)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
+    dotenv (3.1.2)
     erb_lint (0.4.0)
       activesupport
       better_html (>= 2.0.1)
@@ -102,6 +103,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  dotenv
   erb_lint
   pg
   rubocop

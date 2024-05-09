@@ -10,18 +10,24 @@ services:
         target: /app
     network_mode: host
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     command: ruby mymemo.rb
 
   db:
     image: postgres:15
     environment:
-      POSTGRES_DB: ""
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     network_mode: host
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:
