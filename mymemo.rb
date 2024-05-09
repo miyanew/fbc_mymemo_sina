@@ -5,12 +5,16 @@ require 'pg'
 require 'dotenv/load'
 
 CONN = PG.connect(
-  host: 'localhost',
+  host: 'db',
   dbname: ENV['POSTGRES_DB'],
   user: ENV['POSTGRES_USER'],
   password: ENV['POSTGRES_PASSWORD']
 )
 CONN.exec('CREATE TABLE IF NOT EXISTS memos (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR(100) NOT NULL, body VARCHAR(200))')
+
+configure do
+  set :bind, '0.0.0.0'
+end
 
 helpers do
   def h(text)

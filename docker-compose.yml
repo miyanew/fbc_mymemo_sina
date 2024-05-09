@@ -8,7 +8,8 @@ services:
       - type: bind
         source: .
         target: /app
-    network_mode: host
+    ports:
+      - "4567:4567"
     depends_on:
       db:
         condition: service_healthy
@@ -22,7 +23,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    network_mode: host
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
