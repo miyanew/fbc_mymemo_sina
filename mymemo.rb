@@ -22,7 +22,7 @@ end
 
 def load_memos
   memos = CONN.exec('SELECT id, name, body FROM memos')
-  memos.map { |memo| { id: memo['id'], name: memo['name'], body: memo['body'] } }
+  memos.map { |memo| memo.transform_keys(&:to_sym) }
 end
 
 def create_memo(new_name:, new_body:)
@@ -31,7 +31,7 @@ end
 
 def select_target_memo(selected_id)
   memos = CONN.exec_params('SELECT id, name, body FROM memos WHERE id = $1', [selected_id])
-  memos.map { |memo| { id: memo['id'], name: memo['name'], body: memo['body'] } }.first
+  memos.map { |memo| memo.transform_keys(&:to_sym) }.first
 end
 
 def update_memos(selected_id:, updated_name:, updated_body:)
