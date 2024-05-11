@@ -29,9 +29,8 @@ $ git clone https://github.com/miyanew/fbc_mymemo_sina.git
 ```
 $ vi .env
 
-POSTGRES_DB=
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=password
+POSTGRES_USER=my_user
+POSTGRES_PASSWORD=my_password
 
 $ docker compose up -d
 ```

@@ -2,11 +2,9 @@
 
 require 'sinatra'
 require 'pg'
-require 'dotenv/load'
 
 CONN = PG.connect(
   host: 'db',
-  dbname: ENV['POSTGRES_DB'],
   user: ENV['POSTGRES_USER'],
   password: ENV['POSTGRES_PASSWORD']
 )

@@ -2,9 +2,9 @@
 
 source 'https://rubygems.org'
 
-gem 'dotenv'
 gem 'erb_lint'
 gem 'pg'
+gem 'rackup'
 gem 'rubocop'
 gem 'rubocop-fjord'
 gem 'sinatra'
