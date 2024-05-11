@@ -8,7 +8,7 @@ CONN = PG.connect(
   user: ENV['POSTGRES_USER'],
   password: ENV['POSTGRES_PASSWORD']
 )
-CONN.exec('CREATE TABLE IF NOT EXISTS memos (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR(100) NOT NULL, body VARCHAR(200))')
+CONN.exec('CREATE TABLE IF NOT EXISTS memos (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR NOT NULL, body VARCHAR)')
 
 configure do
   set :bind, '0.0.0.0'
@@ -21,7 +21,7 @@ helpers do
 end
 
 def load_memos
-  memos = CONN.exec('SELECT id, name, body FROM memos')
+  memos = CONN.exec('SELECT id, name, body FROM memos ORDER BY name')
   memos.map { |memo| memo.transform_keys(&:to_sym) }
 end
 
