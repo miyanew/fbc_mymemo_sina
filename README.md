@@ -4,31 +4,40 @@ mymemo.rbは、Sinatraで作られたWebブラウザ上で動作するメモア�
 
 対象環境はWSL2（debian）です。
 
-## インストールと起動
+## インストール
 
-1. [公式ガイド](https://docs.docker.com/engine/install/debian/#install-using-the-convenience-script)を参照し、Dockerをインストールしてください。また、非 root ユーザーとして Docker を管理したい場合は[こちら](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)の手順を参照してください。
+1. [ダウンロードページ](https://www.postgresql.org/download/)を参照し、PostgreSQLをインストールしてください。
 
 2. PCの任意の作業ディレクトリにて git clone してください。
+
 ```
 $ git clone https://github.com/miyanew/fbc_mymemo_sina.git
 ```
 
-3. プロジェクトのルートディレクトリに移動したら、`.env`ファイルをつくり以下の要領で環境変数を入力してください。
+3. アプリのルートディレクトリに移動し gem をインストールしてください。
 
 ```
-POSTGRES_USER=my_user
-POSTGRES_PASSWORD=my_password
+$ cd fbc_mymemo_sina
+$ bundle install
 ```
 
-4. コンテナを起動してください。
+## アプリ起動
+
+1. `データベース名`, `ユーザ名`, `パスワード` を環境変数 `MEMO_DB`, `MEMO_USER`, `MEMO_PASSWORD` にセットしてください。
+
+2. スクリプトを実行してデータベースを初期化してください。
 
 ```
-$ docker compose up -d
+$ sh init_db_memos.sh
 ```
 
-5. ブラウザに `http://localhost:4567` を入力するとアプリを実行できます。
+3. アプリを起動してください。
 
-6. アプリケーションを終了します。
 ```
-$ docker compose down
+$ ruby mymemo.rb
 ```
+
+4. ブラウザに `http://localhost:4567` を入力するとアプリを利用できます。
+
+5. `Ctrl + C` でアプリを終了します。
+
