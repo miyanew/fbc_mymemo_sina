@@ -4,15 +4,11 @@ require 'sinatra'
 require 'pg'
 
 CONN = PG.connect(
-  host: 'db',
-  user: ENV['POSTGRES_USER'],
-  password: ENV['POSTGRES_PASSWORD']
+  host: 'localhost',
+  dbname: ENV['MEMO_DB'],
+  user: ENV['MEMO_USER'],
+  password: ENV['MEMO_PASSWORD']
 )
-CONN.exec('CREATE TABLE IF NOT EXISTS memos (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), name VARCHAR NOT NULL, body VARCHAR)')
-
-configure do
-  set :bind, '0.0.0.0'
-end
 
 helpers do
   def h(text)
