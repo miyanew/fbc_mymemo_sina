@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-require 'json'
-require 'securerandom'
+require 'pg'
 
-MEMO_FILEPATH = 'memos.json'
+CONN = PG.connect(
+  host: 'localhost',
+  dbname: ENV['MEMO_DB'],
+  user: ENV['MEMO_USER'],
+  password: ENV['MEMO_PASSWORD']
+)
 
 helpers do
   def h(text)
@@ -13,42 +17,25 @@ helpers do
 end
 
 def load_memos
-  if File.exist?(MEMO_FILEPATH)
-    JSON.parse(File.read(MEMO_FILEPATH), symbolize_names: true)
-  else
-    []
-  end
-end
-
-def save_memos(memos)
-  File.write(MEMO_FILEPATH, JSON.pretty_generate(memos))
+  memos = CONN.exec('SELECT id, name, body FROM memos ORDER BY name')
+  memos.map { |memo| memo.transform_keys(&:to_sym) }
 end
 
 def create_memo(new_name:, new_body:)
-  memos = load_memos
-  id = SecureRandom.uuid
-  memos << { id:, name: new_name, body: new_body }
-  save_memos(memos)
+  CONN.exec_params('INSERT INTO memos (name, body) VALUES ($1, $2)', [new_name, new_body])
 end
 
 def select_target_memo(selected_id)
-  load_memos.find { |memo| memo[:id] == selected_id }
+  memos = CONN.exec_params('SELECT id, name, body FROM memos WHERE id = $1', [selected_id])
+  memos.map { |memo| memo.transform_keys(&:to_sym) }.first
 end
 
 def update_memos(selected_id:, updated_name:, updated_body:)
-  updated_memos = load_memos.map do |memo|
-    if memo[:id] == selected_id
-      memo[:name] = updated_name
-      memo[:body] = updated_body
-    end
-    memo
-  end
-  save_memos(updated_memos)
+  CONN.exec_params('UPDATE memos SET name = $1, body = $2 WHERE id = $3', [updated_name, updated_body, selected_id])
 end
 
 def delete_target_memo(selected_id)
-  deleted_memos = load_memos.delete_if { |memo| memo[:id] == selected_id }
-  save_memos(deleted_memos)
+  CONN.exec_params('DELETE FROM memos WHERE id = $1', [selected_id])
 end
 
 get '/' do

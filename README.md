@@ -1,26 +1,41 @@
 # mymemo
 
-mymemoは、Sinatraで作られたWebブラウザ上で動作するメモアプリです。
-ローカルなネットワーク環境で動作します。
+mymemo.rbは、Sinatraで作られたWebブラウザ上で動作するメモアプリです。ローカルなネットワーク環境で動作します。
 
-## インストールと起動
+対象環境はWSL2（debian）です。
 
-1. PCの任意の作業ディレクトリにて git clone してください。
+## インストール
+
+1. [ダウンロードページ](https://www.postgresql.org/download/)を参照し、PostgreSQLをインストールしてください。
+
+2. PCの任意の作業ディレクトリにて git clone してください。
+
 ```
 $ git clone https://github.com/miyanew/fbc_mymemo_sina.git
 ```
 
-2. プロジェクトのルートディレクトリに移動し、gem をインストールしてください。
+3. アプリのルートディレクトリに移動し gem をインストールしてください。
+
 ```
 $ cd fbc_mymemo_sina
 $ bundle install
 ```
 
-3. アプリケーションを起動してください。
+## アプリ起動
+
+1. `データベース名`, `ユーザ名`, `パスワード` を環境変数 `MEMO_DB`, `MEMO_USER`, `MEMO_PASSWORD` にセットしてください。
+
+2. スクリプトを実行してデータベースを初期化してください。
+
 ```
-$ bundle exec ruby mymemo.rb
+$ sh init_db_memos.sh
 ```
-4. ブラウザから以下のURLにアクセスしてください。
+
+3. アプリを起動してください。
+
 ```
-http://localhost:4567
+$ ruby mymemo.rb
 ```
+
+4. ブラウザに `http://localhost:4567` を入力するとアプリを利用できます。
+5. `Ctrl + C` でアプリを終了します。
